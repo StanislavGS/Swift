@@ -18,13 +18,14 @@ public class Task6_SecondsInBiggerIntervals {
     }
     
     private static String Task6_SecondsInBiggerIntervals(long tot){
-        String st=tot % 60 + " seconds";
+        String st="";
+        if (tot % 60>0) st= tot % 60 + " second" + (tot%60>1?"s":"");
         tot/=60;
-        st= tot % 60 + " minutes, " + st;
+        if (tot % 60>0) st= tot % 60 + " minute" + (tot%60>1?"s":"") + (st!=""?", " + st:"");
         tot/=60;
-        st= tot % 24 + " hours, " + st;
+        if (tot % 24>0) st= tot % 24 + " hour" + (tot%24>1?"s":"") + (st!=""?", " + st:"");
         tot/=24;
-        st= tot  + " days, " + st;
+        if (tot >0) st= tot  + " day" + (tot>1?"s":"") + (st!=""?", " + st:"");
         return st;
     }
     
