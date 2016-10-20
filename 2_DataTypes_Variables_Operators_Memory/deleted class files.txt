@@ -1,0 +1,8 @@
+Task1_ResultFromCodeFragment
+Task2_LeapYear
+Task3_CalculateExpression
+Task4_InchToCm
+Task5_SwapVariables
+Task6_SecondsInBiggerIntervals
+Task7_PersonCharacteristics
+Person
