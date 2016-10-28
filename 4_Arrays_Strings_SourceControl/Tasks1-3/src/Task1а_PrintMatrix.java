@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author t
+ * @author Stanislav Stanislavov
  */
 public class Task1а_PrintMatrix {
     public static void main(String[] args) {
