@@ -19,9 +19,9 @@ public class Task4_PersonCharacteristics {
         Person[] persons=new Person[n];
         for(int i=0;i<n;i++){
             String st;
-            /*st=sc.nextLine();*/
+            st=sc.nextLine();
             
-            switch (i){
+            /*switch (i){
                 case 0:
                     st="Peter,Petrov,M,1985,89.9,184,miner,4.5,4,3.75,4.25";
                     break;
@@ -30,7 +30,7 @@ public class Task4_PersonCharacteristics {
                     break;
                 default:
                     st="Mariya,Atanasova,F,1992,51.6,160,secretary,6,6,5.75,5.5";                    
-            }
+            }*/
             
             persons[i]=new Person(st);            
         }
