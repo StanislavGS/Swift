@@ -79,15 +79,15 @@ public class Task1_PeoplePresentation {
                 checkTotal(elements[0],CHECK_LENGTH | CHECK_LATIN_ALPABET | CHECK_FIRST_LETTER,2,30);
                 checkTotal(elements[1],CHECK_LENGTH | CHECK_LATIN_ALPABET | CHECK_FIRST_LETTER,2,30);
                 if (isStudent){
-                    checkTotal(elements[3],CHECK_LENGTH ,5,10);
+                    checkTotal(elements[2],CHECK_LENGTH ,5,10);
+                    checkTotal(elements[3],CHECK_INTEGER | CHECK_UNNEGATIVE);
                     checkTotal(elements[4],CHECK_INTEGER | CHECK_UNNEGATIVE);
-                    checkTotal(elements[5],CHECK_INTEGER | CHECK_UNNEGATIVE);
                     Student student=new Student(elements[0],elements[1], elements[2],
                             Integer.parseInt(elements[3]),Integer.parseInt(elements[4]));
                     System.out.println(student);
                 }else{
+                    checkTotal(elements[2],CHECK_UNNEGATIVE);
                     checkTotal(elements[3],CHECK_UNNEGATIVE);
-                    checkTotal(elements[4],CHECK_UNNEGATIVE);
                     Worker worker= new Worker(elements[0],elements[1],
                             Double.parseDouble(elements[2]),Double.parseDouble(elements[3]));
                     System.err.println(worker);

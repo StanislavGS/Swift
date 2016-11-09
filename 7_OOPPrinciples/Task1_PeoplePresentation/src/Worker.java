@@ -37,7 +37,7 @@ public class Worker extends Person{
     @Override
     public String toString(){
         return String.format("First name: %s%nLast name: %s%nOccupation: Worker%n" +
-                            "Week salary: %.2f%nHours per day: %.1f%nSalary per hour:%.2f%n",
+                            "Week salary: %.2f%nHours per day: %.6f%nSalary per hour:%.2f%n",
                 getFirstName(),getLastName(),getWeekSalary(),
                 getWorkHoursPerDay(),getWeekSalary()/(5*getWorkHoursPerDay()));
     }

@@ -47,7 +47,7 @@ public class Student extends Person {
     @Override
     public String toString(){
         return String.format("First name: %s%nLast name: %s%nOccupation: Student%n" +
-                            "Faculty number: %s%nHours per day: %.1f%n",
+                            "Faculty number: %s%nHours per day: %.2f%n",
                 getFirstName(),getLastName(),getFacultyNumber(),
                 (getLectureCount()*2+getExerciseCount()*1.5)/5);
     }
