@@ -11,9 +11,12 @@
 public abstract class Employee extends Person{
     double hourSalary;
 
+    public Employee(String name,String phone,double hourSalary,Disciplines disciplinesGlobal,String ...disciplines) {
+        super(name, phone,disciplinesGlobal,disciplines);
+        this.hourSalary=hourSalary;
+    }
     public Employee(String name,String phone,double hourSalary) {
         super(name, phone);
         this.hourSalary=hourSalary;
     }
-    
 }

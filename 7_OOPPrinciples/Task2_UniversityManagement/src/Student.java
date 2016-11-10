@@ -1,4 +1,7 @@
 
+import java.util.Arrays;
+
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,7 +16,7 @@
 public class Student extends Person {
 
     private String _facultyNumber;
-    private Disciplines _disciplines;
+    
 
     String getFacultyNumber() {
         return this._facultyNumber;
@@ -23,22 +26,10 @@ public class Student extends Person {
         this._facultyNumber = _facultyNumber;
     }
 
-    Disciplines getDisciplines() {
-        return this._disciplines;
-    }
-
-    void addDiscipline(Discipline discipline) {
-        this._disciplines.addToEnd(discipline);
-    }
-
-    
-    Student(String name,String phone,String facultyNumber,String ...disciplines) {
-        super(name,phone);        
+  
+    Student(String name,String phone,String facultyNumber,Disciplines disciplinesGlobal,String ...disciplines) {
+        super(name,phone,disciplinesGlobal,disciplines);        
         this._facultyNumber = facultyNumber;
-        this._disciplines = new Disciplines();
-        for (String discipline : disciplines) {
-            this._disciplines.addToEnd(new Discipline(discipline));
-        } 
     }
     
 }

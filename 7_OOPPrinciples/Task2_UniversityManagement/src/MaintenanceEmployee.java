@@ -8,11 +8,10 @@
  *
  * @author Stanislav Stanislavov
  */
-public class Discipline {    
-    String name;
-    Discipline next;    
-
-    Discipline(String name) {
-        this.name=name;
+public class MaintenanceEmployee extends Employee{
+    
+    public MaintenanceEmployee(String name, String phone, double hourSalary) {
+        super(name, phone, hourSalary);
     }
+    
 }
