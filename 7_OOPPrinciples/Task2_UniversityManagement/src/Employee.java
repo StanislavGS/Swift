@@ -8,11 +8,12 @@
  *
  * @author Stanislav Stanislavov
  */
-public class Discipline {    
-    String name;
-    Discipline next;    
+public abstract class Employee extends Person{
+    double hourSalary;
 
-    Discipline(String name) {
-        this.name=name;
+    public Employee(String name,String phone,double hourSalary) {
+        super(name, phone);
+        this.hourSalary=hourSalary;
     }
+    
 }

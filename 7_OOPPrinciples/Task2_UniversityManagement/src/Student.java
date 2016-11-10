@@ -13,8 +13,7 @@
 public class Student extends Person {
 
     private String _facultyNumber;
-    private ArrayList _disciplines;
-    private int _exerciseCount;
+    private Disciplines _disciplines;
 
     String getFacultyNumber() {
         return this._facultyNumber;
@@ -24,35 +23,22 @@ public class Student extends Person {
         this._facultyNumber = _facultyNumber;
     }
 
-    int getLectureCount() {
-        return this._lectureCount;
+    Disciplines getDisciplines() {
+        return this._disciplines;
     }
 
-    void setLectureCount(int _lectureCount) {
-        this._lectureCount = _lectureCount;
+    void addDiscipline(Discipline discipline) {
+        this._disciplines.addToEnd(discipline);
     }
 
-    int getExerciseCount() {
-        return this._exerciseCount;
+    
+    Student(String name,String phone,String facultyNumber,String ...disciplines) {
+        super(name,phone);        
+        this._facultyNumber = facultyNumber;
+        this._disciplines = new Disciplines();
+        for (String discipline : disciplines) {
+            this._disciplines.addToEnd(new Discipline(discipline));
+        } 
     }
-
-    void setExerciseCount(int _exerciseCount) {
-        this._exerciseCount = _exerciseCount;
-    }
-
-    Student(String firstName,String lastName,String _facultyNumber, int _lectureCount, int _exerciseCount) {
-        super(firstName,lastName);
-        this._disciplines = new ArrayList;
-        this._facultyNumber = _facultyNumber;
-        this._lectureCount = _lectureCount;
-        this._exerciseCount = _exerciseCount;
-    }
-    @Override
-    public String toString(){
-        return String.format("First name: %s%nLast name: %s%nOccupation: Student%n" +
-                            "Faculty number: %s%nHours per day: %.2f%n",
-                getFirstName(),getLastName(),getFacultyNumber(),
-                (getLectureCount()*2+getExerciseCount()*1.5)/5);
-    }
-
+    
 }

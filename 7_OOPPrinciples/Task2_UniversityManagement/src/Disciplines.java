@@ -37,5 +37,15 @@ public class Disciplines {
             this._length = 1;
         }
     }
+    
+    public String[] getDisciplines(){
+        String[] st=new String[_length];
+        Discipline current=this._firstElement;
+        for(int i=0;i<_length;i++){
+            st[i]=current.name;
+            current=current.next;
+        }
+        return st;
+    }
 
 }

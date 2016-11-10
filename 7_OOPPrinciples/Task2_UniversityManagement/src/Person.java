@@ -13,19 +13,19 @@ public abstract class Person {
     String name;
     String phone;
 
-    String getFirstName() {
+    String getName() {
         return this.name;
     }
 
-    void setFirstName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    String getLastName() {
+    String getPhone() {
         return this.phone;
     }
 
-    void setLastName(String phone) {
+    void setPhone(String phone) {
         this.phone = phone;
     }
     Person(String name,String phone){
