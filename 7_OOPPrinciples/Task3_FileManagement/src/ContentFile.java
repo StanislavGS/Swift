@@ -6,7 +6,6 @@ import java.time.LocalDate;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Stanislav Stanislavov
@@ -20,10 +19,6 @@ public abstract class ContentFile extends File {
         return this._content;
     }
 
-    void setContent(String _content) {
-        this._content = _content;
-    }
-
     LocalDate getLastModifiedDate() {
         return this._lastModifiedDate;
     }
@@ -32,10 +27,13 @@ public abstract class ContentFile extends File {
         this._lastModifiedDate = _lastModifiedDate;
     }
 
-    ContentFile(String name, String location, LocalDate creationDate,String content, LocalDate lastModifiedDate) {
-        super(name,location,creationDate);
-        this.setContent(content);
+    ContentFile(String name, String location, LocalDate creationDate, String content, LocalDate lastModifiedDate) {
+        super(name, location, creationDate);
+        this.modify(content);
         this.setLastModifiedDate(lastModifiedDate);
     }
 
+    void modify(String data) {
+        this._content = data;
+    }
 }
