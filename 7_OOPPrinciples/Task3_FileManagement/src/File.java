@@ -1,5 +1,6 @@
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /*
@@ -11,11 +12,11 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Stanislav Stanislavov
  */
-public abstract class File {
+public abstract class File implements Comparable<File>{
 
     private String _name;
     private String _location;
-    private LocalDate _creationDate;
+    private LocalDateTime _creationDate;
     private boolean _isDeleted;
 
     String getName() {
@@ -31,11 +32,11 @@ public abstract class File {
     }
 
     
-    LocalDate getCreationDate() {
+    LocalDateTime getCreationDate() {
         return this._creationDate;
     }
 
-    void setCreationDate(LocalDate creationDate) {
+    void setCreationDate(LocalDateTime creationDate) {
         this._creationDate = creationDate;
     }
 
@@ -43,10 +44,10 @@ public abstract class File {
         return this._isDeleted;
     }
 
-    File(String name, String location, LocalDate creationDate) {
+    File(String name, String location) {
         this.setName(name);
         this.move(location);
-        this.setCreationDate(creationDate);
+        this.setCreationDate(LocalDateTime.now());
         this._isDeleted = false;
     }
 
@@ -60,9 +61,14 @@ public abstract class File {
     abstract File copy(String newLocation);
     abstract String execute();    
     String getInfo(){
-        return String.format("Name: %s/%s %s%nCreation date: %s%n", 
+        return String.format("Name: %s/%s %s%nCreation date: %s", 
                 this.getLocation(),this.getName(),this.getIsDeleted()?"[DELETED]":"",
                 this.getCreationDate().toString());
+    }
+    
+    @Override
+    public int compareTo(File compareFile){
+        return (this.getName()).compareTo(compareFile.getName());
     }
     
 }

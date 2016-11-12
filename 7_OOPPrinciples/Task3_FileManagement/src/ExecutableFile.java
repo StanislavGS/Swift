@@ -1,5 +1,6 @@
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 /*
@@ -13,14 +14,14 @@ import java.util.Arrays;
  */
 public class ExecutableFile extends File {
 
-    private LocalDate _lastExecutionDate;
+    private LocalDateTime _lastExecutionDate;
     private String[] _requiredResources;
 
-    LocalDate getLastExecutionDate() {
+    LocalDateTime getLastExecutionDate() {
         return this._lastExecutionDate;
     }
 
-    void setLastExecutionDate(LocalDate lastExecutionDate) {
+    void setLastExecutionDate(LocalDateTime lastExecutionDate) {
         this._lastExecutionDate = lastExecutionDate;
     }
     
@@ -33,23 +34,36 @@ public class ExecutableFile extends File {
         this._requiredResources[this._requiredResources.length-1]=resource;
     }
 
-    ExecutableFile(String name, String location, LocalDate creationDate, LocalDate lastExecutionDate,String ... resourses) {
-        super(name, location, creationDate);
-        this.setLastExecutionDate(lastExecutionDate);
-        if (!resourses.equals(null)){
-            this._requiredResources=resourses;
-        }
+    ExecutableFile(String name, String location, String ... resourses) {
+        super(name, location);
+        this.setLastExecutionDate(LocalDateTime.now());
+        this._requiredResources=resourses;
         
     }
     @Override
     public ExecutableFile copy(String newLocation){
-        return new ExecutableFile(this.getName(), newLocation, this.getCreationDate(),this.getLastExecutionDate());
+        return new ExecutableFile(this.getName(), newLocation, this._requiredResources);
     }
     
     @Override
     public String execute(){
-        return String.format("Executing %s/%s%n", this.getLocation(),this.getName());
-        ...
+        String st=String.format("Executing %s/%s", this.getLocation(),this.getName())+
+                ";"+String.join(";", this._requiredResources);
+        this.setLastExecutionDate(LocalDateTime.now());
+        return st;
     }
+    
+    @Override
+    String getInfo(){
+        String st="Required resources:\n";
+        for (int i = 0; i < this._requiredResources.length; i++) {
+             st += this._requiredResources[i] ;
+             if (i<this._requiredResources.length-1){
+                 st +="\n";
+             }
+        }
+        return String.format("%s%nLast execution date:%s%n%s",super.getInfo(),
+                this.getLastExecutionDate().toString(),st);
+   }
 
 }

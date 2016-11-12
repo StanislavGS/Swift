@@ -1,5 +1,6 @@
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,27 +14,33 @@ import java.time.LocalDate;
 public abstract class ContentFile extends File {
 
     private String _content;
-    private LocalDate _lastModifiedDate;
+    private LocalDateTime _lastModifiedDate;
 
     String getContent() {
         return this._content;
     }
 
-    LocalDate getLastModifiedDate() {
+    LocalDateTime getLastModifiedDate() {
         return this._lastModifiedDate;
     }
 
-    void setLastModifiedDate(LocalDate _lastModifiedDate) {
+    void setLastModifiedDate(LocalDateTime _lastModifiedDate) {
         this._lastModifiedDate = _lastModifiedDate;
     }
 
-    ContentFile(String name, String location, LocalDate creationDate, String content, LocalDate lastModifiedDate) {
-        super(name, location, creationDate);
+    ContentFile(String name, String location,  String content) {
+        super(name, location);
         this.modify(content);
-        this.setLastModifiedDate(lastModifiedDate);
     }
 
-    void modify(String data) {
+    final void modify(String data) {
         this._content = data;
+        this.setLastModifiedDate(LocalDateTime.now());
+    }
+    
+    @Override
+    String getInfo(){
+        return String.format("%s%nLast modification date:%s", 
+                super.getInfo(),this.getLastModifiedDate().toString());
     }
 }
