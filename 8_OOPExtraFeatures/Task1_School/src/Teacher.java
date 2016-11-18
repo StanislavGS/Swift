@@ -8,10 +8,15 @@
  *
  * @author Stanislav Stanislavov
  */
-public class Teacher {
-    private String name;
+public class Teacher extends SchoolObject{
     
-    public String getName(){
-        return this.name;
-    }
+    Teacher(String name) {
+        this.name=name;
+        this.disciplines=new Discipline[50];
+        this.classes=new Class[50];
+        this.numDisciplines=0;
+        this.numClasses=0;
+    }    
+    
+
 }

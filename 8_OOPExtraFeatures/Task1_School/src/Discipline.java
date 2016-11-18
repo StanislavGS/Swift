@@ -8,11 +8,13 @@
  *
  * @author Stanislav Stanislavov
  */
-public class Discipline {
-    private String name;
-    
-    public String getName(){
-        return this.name;
-    }
-    
+public class Discipline extends SchoolObject {
+
+    Discipline(String name) {
+        this.name = name;
+        this.classes = new Class[50];
+        this.numClasses = 0;
+        this.teachers = new Teacher[50];
+        this.numTeachers = 0;
+    }    
 }

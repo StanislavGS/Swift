@@ -8,7 +8,7 @@
  *
  * @author Stanislav Stanislavov
  */
-public class Student {
+public class Student implements Comparable<Student>{
     private String name;
     private int numberInClass;
     
@@ -21,4 +21,9 @@ public class Student {
     public int getNumberInClass(){
         return this.numberInClass;
     }
+    @Override
+    public int compareTo(Student student){
+        return this.getName().compareTo(student.getName());
+    }
+    
 }
