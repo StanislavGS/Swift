@@ -22,6 +22,12 @@ public abstract class FileSystemObject {
     }
 
     FileSystemObject(String name,FolderObject parent) {
+        
+        if(((name.isEmpty()) || !name.matches("[a-zA-Z0-9()_!.&]+")) ||  
+                (!name.substring(0, 1).matches("[a-zA-Z0-9]"))){
+           throw(new IllegalArgumentException("Invalid name specified")); 
+        }
+        
         this.name=name;
         this.parent=parent;
     }

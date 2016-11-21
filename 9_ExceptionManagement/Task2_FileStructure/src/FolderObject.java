@@ -22,14 +22,6 @@ public class FolderObject extends FileSystemObject{
     }
     
     public void addFileOrFolder(byte type,String[] st){//type 0-folder; 1-file;
-        if((!st[0].matches("[a-zA-Z0-9()_!.&]+")) || (st[0].isEmpty()) || 
-                (!st[0].substring(0, 1).matches("[a-zA-Z0-9]"))){
-           throw(new IllegalArgumentException("Invalid name specified")); 
-        }
-        int indexDot=st[0].lastIndexOf(".");
-        if(type==1 && indexDot>=0 && st[0].length()-indexDot-1>6){
-           throw(new IllegalArgumentException("Invalid name specified"));            
-        }
         int i=Collections.binarySearch(children,new FileObject(st[0],null) , new FileSistemComparator());
         if(st.length>1){           
            if (i<0){

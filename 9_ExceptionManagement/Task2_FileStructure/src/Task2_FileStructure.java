@@ -42,7 +42,7 @@ public class Task2_FileStructure {
             } catch (IllegalArgumentException ex) {
                 System.out.println(j+" - "+ex.getMessage());
             }  
-            System.out.println(s);         
+            //System.out.println(s);         
         }
        
     }
