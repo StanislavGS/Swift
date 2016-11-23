@@ -34,12 +34,17 @@ public class Task5_ChildPlay {
             int oldHeight;
             while(it.hasNext()){
                 if(!isFirst){
-                    if()
+                    if(it.next()>it.previous()){
+                        it.next();
+                        it.remove();
+                        fl=true;
+                    }else{
+                        it.next();
+                    }
+                    
                 }else{
                     isFirst=false;
-                }
-                oldHeight
-                        
+                }       
             }
         }
     }
