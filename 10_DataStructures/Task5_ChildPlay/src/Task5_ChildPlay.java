@@ -25,27 +25,26 @@ public class Task5_ChildPlay {
             heights.add(i, sc.nextInt());
         }
 
-        boolean fl = true;
-        while (fl) {
-            fl = false;
-            //ListIterator<Integer> li=heights.listIterator();
-            ListIterator<Integer> it=heights.listIterator();
-            boolean isFirst=true;
-            int oldHeight;
-            while(it.hasNext()){
-                if(!isFirst){
-                    if(it.next()>it.previous()){
+        boolean haveRemoving = true;
+        int steps = -1, a, b;
+        while (haveRemoving) {
+            haveRemoving = false;
+            ListIterator<Integer> it = heights.listIterator(heights.size());
+            while (it.hasPrevious()) {
+                a = it.previous();
+                if (it.hasPrevious()) {
+                    b = it.previous();
+                    b=it.next();
+                    if (a > b) {
                         it.next();
                         it.remove();
-                        fl=true;
-                    }else{
-                        it.next();
-                    }
-                    
-                }else{
-                    isFirst=false;
-                }       
+                        haveRemoving = true;
+                    }                  
+                }              
             }
+            steps++;
+
         }
+        System.out.println(steps);
     }
 }
