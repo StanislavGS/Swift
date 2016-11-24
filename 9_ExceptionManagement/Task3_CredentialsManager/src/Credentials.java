@@ -17,9 +17,9 @@ public class Credentials implements Comparable<Credentials> {
     String getUsername(){
         return username;
     }
-    String setPassword(String oldPassword,String newPassword){
+    void setPassword(String oldPassword,String newPassword) throws OldPasswordConflictException{
         if(!checkPassword(oldPassword)){
-            return "fail";
+            throw new SecurityException("");
         }
         boolean existInOldPasswords=false;
         int i=0;
@@ -28,11 +28,10 @@ public class Credentials implements Comparable<Credentials> {
             i++;
         }
         if(existInOldPasswords){
-            return "fail";
+            throw new OldPasswordConflictException(numberOldPasswords-i-1);
         }else{
             oldPasswords[numberOldPasswords++]=newPassword;
-            password=newPassword;
-            return "success";
+            password=newPassword;            
         }
     }
     Credentials(String username, String password){
@@ -46,6 +45,7 @@ public class Credentials implements Comparable<Credentials> {
         return password.equals(this.password);        
     }
     
+    @Override
     public int compareTo(Credentials compareCredentials){
         return this.username.compareTo(compareCredentials.username);
     }    
