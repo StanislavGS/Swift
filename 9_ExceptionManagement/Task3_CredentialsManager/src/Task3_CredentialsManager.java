@@ -73,6 +73,7 @@ public class Task3_CredentialsManager {
         } while (!s1[0].equals("END"));
     }
 
+    
     private static int findByName(String name) {
         Credentials trash = new Credentials(name, "");
         return usersClasses.indexOf(trash);
