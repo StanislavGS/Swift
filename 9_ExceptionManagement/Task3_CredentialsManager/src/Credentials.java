@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.util.Comparator;
 /**
  *
  * @author Stanislav Stanislavov
  */
-public class Credentials implements Comparable<Credentials> {
+public class Credentials implements Comparable<Credentials>  {
     private String username;
     private String password;
     private String[] oldPasswords;
@@ -18,9 +17,7 @@ public class Credentials implements Comparable<Credentials> {
         return username;
     }
     void setPassword(String oldPassword,String newPassword) throws OldPasswordConflictException{
-        if(!checkPassword(oldPassword)){
-            throw new SecurityException("");
-        }
+        checkPassword(oldPassword);
         boolean existInOldPasswords=false;
         int i=0;
         while(i<numberOldPasswords && !existInOldPasswords){
@@ -28,7 +25,7 @@ public class Credentials implements Comparable<Credentials> {
             i++;
         }
         if(existInOldPasswords){
-            throw new OldPasswordConflictException(numberOldPasswords-i-1);
+            throw new OldPasswordConflictException(numberOldPasswords-i);
         }else{
             oldPasswords[numberOldPasswords++]=newPassword;
             password=newPassword;            
@@ -41,12 +38,21 @@ public class Credentials implements Comparable<Credentials> {
         oldPasswords[0]=password;
         numberOldPasswords=1;
     }
-    boolean checkPassword(String password){
-        return password.equals(this.password);        
+    void checkPassword(String password){
+        if (!password.equals(this.password)){
+            throw new SecurityException("Illegal password");
+        }        
     }
     
     @Override
     public int compareTo(Credentials compareCredentials){
         return this.username.compareTo(compareCredentials.username);
-    }    
+    }
+    
+    @Override
+    public boolean equals(Object compareCredentials){
+        if (!(compareCredentials instanceof Credentials))
+            return false;
+        return this.username.equals(((Credentials) compareCredentials).username);
+    }
 }
