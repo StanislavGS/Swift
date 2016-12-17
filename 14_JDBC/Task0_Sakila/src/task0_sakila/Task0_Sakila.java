@@ -10,7 +10,7 @@ import java.sql.Types;
 
 public class Task0_Sakila {
 
-    final static String DBMS_CONN_STRING = "localhost:3306/sakila";
+    final static String DBMS_CONN_STRING = "jdbc:mysql://localhost:3306/sakila";
     final static String DBMS_USERNAME = "root";
     final static String DBMS_PASSWORD = "";
 
@@ -50,9 +50,8 @@ public class Task0_Sakila {
         try (Connection con = DriverManager.getConnection(DBMS_CONN_STRING, DBMS_USERNAME, DBMS_PASSWORD);
                 CallableStatement statement = con.prepareCall("{call insert_actor(?, ?, ?)}")) {
 
-            String actorFirstName = "", actorLastName = "";
-            statement.setString("new_actor_first_name", actorFirstName);
-            statement.setString("new_actor_last_name", actorFirstName);
+            statement.setString("new_actor_first_name", firstName);
+            statement.setString("new_actor_last_name",lastName);
             statement.registerOutParameter("new_id", Types.INTEGER);
 
             statement.executeQuery();
@@ -77,7 +76,7 @@ public class Task0_Sakila {
         try (Connection con = DriverManager.getConnection(DBMS_CONN_STRING, DBMS_USERNAME, DBMS_PASSWORD);
                 Statement statement = con.createStatement()) {
 
-            statement.executeQuery(
+            statement.execute(
                         "INSERT INTO `sakila`.`film_actor` (actor_id,film_id) "
                         + "VALUES ("+actorID+","+filmID+");");           
 
@@ -93,14 +92,14 @@ public class Task0_Sakila {
         try (Connection con = DriverManager.getConnection(DBMS_CONN_STRING, DBMS_USERNAME, DBMS_PASSWORD);
                 Statement statement = con.createStatement()) {
 
-            statement.executeQuery(
+            statement.execute(
                         "INSERT INTO `sakila`.`film` (`title`,`description`,`release_year`," +
 "`language_id`,`original_language_id`,`length`,`special_features`) "
-                        + "VALUES ('film1','descr','2016','German','English',125,'Trailers');");   
+                        + "VALUES ('film1','descr','2016',2,1,125,'Trailers');");   
             
-            
+            //statement.
             ResultSet rs = statement.executeQuery(
-                        "SELECT film_id FROM WHERE `title`='film1'; ");
+                        "SELECT `film_id` FROM `sakila`.`film` WHERE `title`='film1'; ");
 
             rs.next();
             filmID=rs.getInt("film_id");          
