@@ -44,7 +44,7 @@ public class TaskFunctions {
 
         Teacher teacher = null;
         try {
-            execQueryWithResult(con, statement, rs, "SELECT * FROM `teachers` JOIN `addresses`"
+            rs=execQueryWithResult(con, statement, "SELECT * FROM `teachers` JOIN `addresses`"
                     + " ON `teachers`.`id_address`=`addresses`.`id` WHERE "
                     + "`teachers`.`id`='" + id + "';");
             if (rs.next()) {
@@ -68,7 +68,7 @@ public class TaskFunctions {
 
         ArrayList<Teacher> teachers = new ArrayList<>();
         try {
-            execQueryWithResult(con, statement, rs, "SELECT * FROM `teachers` JOIN `addresses`"
+            rs=execQueryWithResult(con, statement,  "SELECT * FROM `teachers` JOIN `addresses`"
                     + " ON `teachers`.`id_address`=`addresses`.`id` WHERE "
                     + "`teachers`.`salary` BETWEEN '" + bottomSalaryLimit + "' AND '"
                     + topSalaryLimit + "';");
@@ -79,9 +79,9 @@ public class TaskFunctions {
                         rs.getInt("floor"), rs.getInt("apartmentNo"))));
             }
         } finally {
-            con.close();
-            statement.close();
-            rs.close();
+            if (con!=null) con.close();
+            if (statement!=null) statement.close();
+            if (rs!=null) rs.close();
         };
         return teachers;
 
@@ -107,7 +107,7 @@ public class TaskFunctions {
 
         Student student = null;
         try {
-            execQueryWithResult(con, statement, rs, "SELECT * FROM `students` JOIN `addresses`"
+            rs=execQueryWithResult(con, statement,  "SELECT * FROM `students` JOIN `addresses`"
                     + " ON `students`.`id_address`=`addresses`.`id` WHERE "
                     + "`students`.`id`='" + id + "';");
             if (rs.next()) {
@@ -117,9 +117,9 @@ public class TaskFunctions {
                                 rs.getInt("floor"), rs.getInt("apartmentNo")));
             }
         } finally {
-            con.close();
-            statement.close();
-            rs.close();
+            if (con!=null) con.close();
+            if (statement!=null) statement.close();
+            if (rs!=null) rs.close();
         };
         return student;
 
@@ -132,7 +132,7 @@ public class TaskFunctions {
 
         ArrayList<Student> students = new ArrayList<>();
         try {
-            execQueryWithResult(con, statement, rs, "SELECT * FROM `students` JOIN `addresses`"
+            rs=execQueryWithResult(con, statement, "SELECT * FROM `students` JOIN `addresses`"
                     + " ON `students`.`id_address`=`addresses`.`id` WHERE "
                     + "`students`.`enrollmentDate` >= '" + startDate.toString() + "';");
             while (rs.next()) {
@@ -142,9 +142,9 @@ public class TaskFunctions {
                                 rs.getInt("floor"), rs.getInt("apartmentNo"))));
             }
         } finally {
-            con.close();
-            statement.close();
-            rs.close();
+            if (con!=null) con.close();
+            if (statement!=null) statement.close();
+            if (rs!=null) rs.close();
         };
         return students;
 
@@ -158,16 +158,16 @@ public class TaskFunctions {
 
         ArrayList<String> disciplines = new ArrayList<>();
         try {
-            execQueryWithResult(con, statement, rs, "SELECT * FROM `disciplines_taught`"
-                    + " JOIN `disciplines` ON  `disciplines_taught`.`id_discipline`=`disciplines`.`id`"
-                    + " WHERE `disciplines_taught`.`id_teacher`=" + id + "';");
+            rs=execQueryWithResult(con, statement, "SELECT * FROM `disciplines_taught`"
+                    + " JOIN `disciplines` as t1 ON  `disciplines_taught`.`id_discipline`=t1.`id`"
+                    + " WHERE `disciplines_taught`.`id_teacher`='" + id + "';");
             while (rs.next()) {
-                disciplines.add(rs.getString("`disciplines`.`name`"));
+                disciplines.add(rs.getString("t1.`name`"));
             }
         } finally {
-            con.close();
-            statement.close();
-            rs.close();
+            if (con!=null) con.close();
+            if (statement!=null) statement.close();
+            if (rs!=null) rs.close();
         };
         return disciplines;
 
@@ -180,7 +180,7 @@ public class TaskFunctions {
 
         ArrayList<Teacher> teachers = new ArrayList<>();
         try {
-            execQueryWithResult(con, statement, rs, "SELECT * FROM `disciplines_taught`"
+            rs=execQueryWithResult(con, statement,  "SELECT * FROM `disciplines_taught`"
                     + " JOIN `disciplines`  ON `disciplines_taught`.`id_discipline`=`disciplines`.`id`"
                     + " JOIN `teachers`  ON `disciplines_taught`.`id_teacher`=`teachers`.`id`"
                     + " JOIN `addresses`  ON `teachers`.`id_address`=`addresses`.`id`"
@@ -192,18 +192,18 @@ public class TaskFunctions {
                         rs.getInt("floor"), rs.getInt("apartmentNo"))));
             }
         } finally {
-            con.close();
-            statement.close();
-            rs.close();
+            if (con!=null) con.close();
+            if (statement!=null) statement.close();
+            if (rs!=null) rs.close();
         };
         return teachers;
     }
 
-    private static void execQueryWithResult(Connection con, Statement statement, ResultSet rs,
+    private static ResultSet execQueryWithResult(Connection con, Statement statement, 
             String query) throws SQLException {
         con = DriverManager.getConnection(DBMS_CONN_STRING, DBMS_USERNAME, DBMS_PASSWORD);
         statement = con.createStatement();
-        rs = statement.executeQuery(query);
+        return statement.executeQuery(query);
     }
 
     private static int insertQuery(String table, String[] colsAndValues) throws SQLException {
