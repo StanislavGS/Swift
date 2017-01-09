@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Interfaces;
+import java.util.ArrayList;
 import personaldetails.Citizen;
 /**
  *
@@ -13,4 +14,6 @@ public interface CitizenStorage {
     public Citizen getCitizenById(int id);
     public int putCitizenInDB(Citizen citizen);
     public void updateCitizen(Citizen citizen,int id);
+    public void clearAllCitizens();
+    public int putCitizensInDB(ArrayList<Citizen> citizens);
 }

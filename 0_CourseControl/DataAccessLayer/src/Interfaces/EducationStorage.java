@@ -6,6 +6,7 @@
 package Interfaces;
 
 import education.Education;
+import java.util.List;
 
 /**
  *
@@ -14,5 +15,7 @@ import education.Education;
 public interface EducationStorage {
     public Object getEducationById(int id);
     public int putEducationInDB(Education education);
-    public void updateEducation(Object education,int id);    
+    public void updateEducation(Object education,int id);  
+    public void clearAllEducations();
+    public int putEducationsInDB(List<Education> educations);
 }
