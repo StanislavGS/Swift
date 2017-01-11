@@ -15,8 +15,28 @@
     <body>
         <h1>Hello World!<% out.print(LocalDateTime.now().toString());             %></h1>
         
+
         <table border="1">
-            <tbody>
+           <thead>
+                <tr>
+                    <th colspan="2">Person details</th>
+                    <th colspan="2">Address</th>
+                    <th colspan="2">Education<br/>
+                        <table border="1">
+                            <tbody>
+                                <tr>
+                                    <td><input type="submit" value="education Back" name="educationBack" /></td>
+                                    <td>5 of 6</td>
+                                    <td><input type="submit" value="education Forward" name="educationForrward" /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </th>
+                    <th colspan="2">Insurance records</th>                    
+                </tr>
+                </thead>
+                 <tbody>
                 <tr>
                     <td>first name:</td>
                     <td></td>
@@ -92,10 +112,9 @@
                     <td></td>
                     <td>apartment:</td>
                     <td></td>
-                    <td><input type="button" value="new Education" name="newEducation" /></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td colspan="2"><input type="submit" value="new Education" name="newEducation" /></td>
+                    <td colspan="2"><input type="submit" value="new Insurance Record" name="newRecord" /></td>
+                    
                 </tr>
             </tbody>
         </table>
