@@ -5,6 +5,7 @@
  */
 package MySQLClasses;
 
+import Exceptions.DALException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -35,34 +36,52 @@ public class MySQLRequest {
         this.result = null;
     }
 
-    
-    public void execute() {
+    public void execute() throws SQLException {
+        CallableStatement cStatement = null;
+        PreparedStatement pStatement = null;
+        Statement statement = null;
+        ResultSet rs = null;
 
+        if (this.typeStatement==TypeStatement.execute && this.typeRsult!=TypeResult.Boolean && this.typeRsult!=TypeResult.Void){
+            throw new IllegalArgumentException();
+        }
+        
         try (Connection con = DriverManager.getConnection(DBMS_CONN_STRING, DBMS_USERNAME, DBMS_PASSWORD);) {
             switch (typeStatement) {
-                case : TypeStatement.callable.
-                    CallableStatement statement = con.prepareCall(SQLtext);
-                    statement.setInt("p_film_id", 1);
-                    statement.setInt("p_store_id", 1);
-                    statement.registerOutParameter("p_film_count", Types.INTEGER);
-                    statement.executeQuery(this.SQLtext);
+                case callable:
+                    cStatement = con.prepareCall(SQLtext);
+                    cStatement.setInt("p_film_id", 1);
+                    cStatement.setInt("p_store_id", 1);
+                    cStatement.registerOutParameter("p_film_count", Types.INTEGER);
+                    cStatement.executeQuery(this.SQLtext);
                     break;
-                case :
-                    TypeStatement.prepared PreparedStatement statement = con.prepareStatement(this.SQLtext);
-                    statement.setString(1, arg);
-                    ResultSet rs = statement.executeQuery();
-                case :
-                    TypeStatement.execute Statement statement = con.createStatement();
-                    ResultSet rs = statement.execute(this.SQLtext);
-                case :
-                    TypeStatement.executeQuery Statement statement = con.createStatement();
-                    ResultSet rs = statement.execute(this.SQLtext);
+                case prepared:
+                    pStatement = con.prepareStatement(this.SQLtext);
+                    pStatement.setString(1, "xxxxxxx");
+                    rs = pStatement.executeQuery();
+                case execute:
+                    statement = con.createStatement();
+                    Boolean boo = statement.execute(this.SQLtext);
+                    this.result = boo;
+                case executeQuery:
+                    statement = con.createStatement();
+                    rs = statement.executeQuery(this.SQLtext);
             }
         } catch (SQLException ex) {
-
-        }finaly
-        {
-
+            throw ex;
+        } finally      {
+            if (cStatement != null) {
+                cStatement.close();
+            }
+            if (pStatement != null) {
+                pStatement.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (rs != null) {
+                rs.close();
+            }
         }
 
     }

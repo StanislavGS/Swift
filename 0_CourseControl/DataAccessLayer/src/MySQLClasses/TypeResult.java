@@ -12,5 +12,5 @@ package MySQLClasses;
 public enum TypeResult {
     Address,Education,Insurance,Citizen,
     AddressList,EducationList,InsuranceList,CitizenList,
-    Int,Void
+    Int,Boolean,Void
 }
