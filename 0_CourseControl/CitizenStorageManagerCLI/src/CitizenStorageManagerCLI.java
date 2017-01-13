@@ -1,5 +1,7 @@
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,6 +21,7 @@ public class CitizenStorageManagerCLI {
      File file=new File(args[0]); 
      if(file.canRead()){
          
+         Files.readAllLines(path,Charset.defaultCharset("UTF8"));
      }
     }    
 }
