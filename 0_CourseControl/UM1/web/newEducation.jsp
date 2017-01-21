@@ -1,10 +1,9 @@
 <%-- 
-    Document   : newjsp
-    Created on : Jan 14, 2017, 8:16:50 PM
+    Document   : newEducation
+    Created on : Jan 20, 2017, 10:36:36 PM
     Author     : stanislav
 --%>
 
-<%@page import="java.time.LocalDateTime"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-
-        <%%>
+        <h1>Hello World!</h1>
     </body>
 </html>
