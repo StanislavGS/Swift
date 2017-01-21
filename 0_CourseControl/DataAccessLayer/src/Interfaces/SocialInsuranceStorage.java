@@ -5,8 +5,10 @@
  */
 package Interfaces;
 
+import Exceptions.DALException;
 import insurance.SocialInsuranceRecord;
-import java.util.LinkedList;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -17,6 +19,7 @@ public interface SocialInsuranceStorage {
     public int putInsuranceInDB(SocialInsuranceRecord isuranceRecord);
     public void updateInsurance(SocialInsuranceRecord isuranceRecord,int id);  
     public void clearAllInsurances();
-    public int putInsurancesInDB(LinkedList<SocialInsuranceRecord> insuranceRecords);
+    public void putInsurancesInDB(ArrayList<SocialInsuranceRecord> insuranceRecords,
+            int[][] personInsurance) throws DALException;
     
 }

@@ -5,15 +5,19 @@
  */
 package MySQLClasses;
 
+import Exceptions.DALException;
 import Interfaces.CitizenStorage;
+import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationsException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import personaldetails.Citizen;
+import personaldetails.Gender;
 
 /**
  *
  * @author stanislav
  */
-public class MySQLCitizenStorage implements CitizenStorage{
+public class MySQLCitizenStorage implements CitizenStorage {
 
     @Override
     public Citizen getCitizenById(int id) {
@@ -36,10 +40,71 @@ public class MySQLCitizenStorage implements CitizenStorage{
     }
 
     @Override
-    public int putCitizensInDB(ArrayList<Citizen> citizens) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void putCitizensInDB(ArrayList<Citizen> citizens, int adressesIdx[]) throws DALException {
+        if (citizens.size() != adressesIdx.length) {
+            throw new DALException("Citizen array and index array of addresses are different length",
+                    new IllegalArgumentException());
+        }
+        ArrayList<CharSequence> sts=new ArrayList<>();
+        //String sqlQuery = "INSERT INTO `citizen_insurance`.`citizen` VALUES \n";
+        sts.add("INSERT INTO `citizen_insurance`.`citizen` VALUES \n");
+        for (int i = 0; i < citizens.size(); i++) {
+            Citizen current = citizens.get(i);
+            if (i > 0) {
+                //sqlQuery += ",\n";
+                sts.add(",\n");
+            }
+            //sqlQuery +=
+            sts.add( String.format("('%d','%s','%s','%s','%.1f','%s','%d','%d')",
+                    i+1, current.getFirstName(), current.getMiddleName(), current.getLastName(),
+                    (float) current.getHeight(), current.getDateOfBirth().toString(),
+                    current.getGender() == Gender.Male ? 1 : 2, adressesIdx[i]+1));
+        }
+        //sqlQuery += ";";
+        sts.add(";");
+        MySQLRequest request = new MySQLRequest(String.join("", sts), TypeStatement.execute, TypeResult.Void);
+        try {
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while putting addresses in DB", ex);
+        }
     }
-    
-   
-    
+
+    @Override
+    public int getCitizensCount() throws DALException {
+        String sqlQuery = "SELECT (`id`) FROM `citizen_insurance`.`citizen`;";
+
+        MySQLRequest request = new MySQLRequest(sqlQuery, TypeStatement.executeQuery, TypeResult.numRows);
+        try {
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while putting addresses in DB", ex);
+        }
+
+        return (int) request.getResult();
+    }
+
+    @Override
+    public void clearWholeDB() throws DALException {
+        String sqlQuery = "SET GLOBAL FOREIGN_KEY_CHECKS = 0;";
+        MySQLRequest request = new MySQLRequest(sqlQuery, TypeStatement.execute, TypeResult.Void);
+        try {
+            request.execute();
+            request.setSQLtext("TRUNCATE TABLE citizen_insurance.social_insurances_has_citizen;");
+            request.execute();
+            request.setSQLtext("TRUNCATE TABLE citizen_insurance.educations;");
+            request.execute();
+            request.setSQLtext("TRUNCATE TABLE citizen_insurance.social_insurances;");
+            request.execute();
+            request.setSQLtext("TRUNCATE TABLE citizen_insurance.citizen;");
+            request.execute();
+            request.setSQLtext("TRUNCATE TABLE citizen_insurance.addresses;");
+            request.execute();
+            request.setSQLtext("SET GLOBAL FOREIGN_KEY_CHECKS = 1;");
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while erasing DB", ex);
+        }
+    }
+
 }

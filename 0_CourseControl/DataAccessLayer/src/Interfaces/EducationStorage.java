@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Exceptions.DALException;
 import education.Education;
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface EducationStorage {
     public int putEducationInDB(Education education);
     public void updateEducation(Object education,int id);  
     public void clearAllEducations();
-    public int putEducationsInDB(List<Education> educations);
+    public void putEducationsInDB(List<Education> educations,List<Integer> educationCitizeIdx) throws DALException;
 }

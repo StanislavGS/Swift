@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Exceptions.DALException;
 import address.Address;
 import java.util.LinkedList;
 
@@ -22,5 +23,5 @@ public interface AddressStorage {
 
     public void clearAllAddresses();
 
-    public void putAddressesInDB(LinkedList<Address> addresses);
+    public void putAddressesInDB(LinkedList<Address> addresses) throws DALException;
 }

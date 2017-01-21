@@ -12,12 +12,17 @@ import java.sql.SQLException;
  * @author stanislav
  */
 public class DALException extends SQLException{
-    String message;
+    String dALmessage;
     Exception ex;
 
     public DALException(String message, Exception ex) {
-        this.message = message;
+        this.dALmessage = message;
         this.ex = ex;
     }
+
+    public String getdALmessage() {
+        return dALmessage;
+    }
+    
     
 }

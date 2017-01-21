@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Interfaces;
+import Exceptions.DALException;
 import java.util.ArrayList;
 import personaldetails.Citizen;
 /**
@@ -15,5 +16,7 @@ public interface CitizenStorage {
     public int putCitizenInDB(Citizen citizen);
     public void updateCitizen(Citizen citizen,int id);
     public void clearAllCitizens();
-    public int putCitizensInDB(ArrayList<Citizen> citizens);
+    public void putCitizensInDB(ArrayList<Citizen> citizens,int adressesIdx[]) throws DALException;
+    public int getCitizensCount() throws DALException;
+    public void clearWholeDB() throws DALException;
 }
