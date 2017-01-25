@@ -7,11 +7,13 @@ package MySQLClasses;
 
 import Exceptions.DALException;
 import Interfaces.CitizenStorage;
-import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationsException;
+import address.Address;
+import education.Education;
+import insurance.SocialInsuranceRecord;
+//import com.sun.xml.internal.bind.v2.runtime.IllegalAnnotationsException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import personaldetails.Citizen;
-import personaldetails.Gender;
+import personaldetails.*;
 
 /**
  *
@@ -20,8 +22,36 @@ import personaldetails.Gender;
 public class MySQLCitizenStorage implements CitizenStorage {
 
     @Override
-    public Citizen getCitizenById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Citizen getCitizenById(int id)  throws DALException{
+        String sqlQuery="SELECT * FROM `citizen_insurance`.`citizen` WHERE `id`='"+id+"';";
+        MySQLRequest request = new MySQLRequest(sqlQuery, TypeStatement.executeQuery, TypeResult.Citizen);
+        try {
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while getting citizen from DB", ex);
+        }
+        
+        Citizen citizen=(Citizen) ((ArrayList<Object>) request.getResult()).get(0);
+        int idAddress=(int) ((ArrayList<Object>) request.getResult()).get(1);
+        
+        MySqlAddressStorage addressStorage=new MySqlAddressStorage();
+        citizen.setAddress(addressStorage.getAddressFromDB(idAddress));
+        //citizen.setAddress((Address) request.getResult());
+        
+        MySQLEducationStorage educationStorage=new MySQLEducationStorage();
+        ArrayList<Education> educations=educationStorage.getEducationsByCitizenId(id);        
+        for(Education edu:((ArrayList<Education>) educations)){
+            citizen.addEducation(edu);
+        }       
+        
+        
+        MySQLSocialInsuranceStorage insStorage=new MySQLSocialInsuranceStorage();
+        ArrayList<SocialInsuranceRecord> socInsurances=insStorage.getInsurancesByCitizenId(id);
+        for(SocialInsuranceRecord sir:socInsurances){
+            citizen.addSocialInsuranceRecord(sir);
+        }
+        
+        return citizen;
     }
 
     @Override

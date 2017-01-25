@@ -16,7 +16,8 @@ import java.util.ArrayList;
  */
 public interface SocialInsuranceStorage {
     public Object getInsuranceById(int id);
-    public int putInsuranceInDB(SocialInsuranceRecord isuranceRecord);
+    public ArrayList<SocialInsuranceRecord> getInsurancesByCitizenId(int id) throws DALException;
+    public void putInsuranceInDB(SocialInsuranceRecord isuranceRecord,int idCitizen) throws DALException;
     public void updateInsurance(SocialInsuranceRecord isuranceRecord,int id);  
     public void clearAllInsurances();
     public void putInsurancesInDB(ArrayList<SocialInsuranceRecord> insuranceRecords,

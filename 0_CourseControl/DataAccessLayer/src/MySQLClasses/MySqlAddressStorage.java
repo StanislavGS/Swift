@@ -30,8 +30,15 @@ public class MySqlAddressStorage implements AddressStorage{
     }
 
     @Override
-    public Address getAddressFromDB(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Address getAddressFromDB(int id) throws DALException{
+        String        sqlQuery="SELECT * FROM `citizen_insurance`.`addresses` WHERE `id`='"+id+"';";
+        MySQLRequest request= new MySQLRequest(sqlQuery, TypeStatement.executeQuery, TypeResult.Address);
+          try {
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while getting address by citizen from DB", ex);
+        }
+        return (Address) request.getResult();
     }
 
     @Override

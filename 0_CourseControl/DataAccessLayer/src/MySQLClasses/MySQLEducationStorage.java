@@ -8,6 +8,7 @@ package MySQLClasses;
 import Exceptions.DALException;
 import Interfaces.EducationStorage;
 import education.Education;
+import education.GradedEducation;
 import education.HigherEducation;
 import education.PrimaryEducation;
 import education.SecondaryEducation;
@@ -25,10 +26,42 @@ public class MySQLEducationStorage implements EducationStorage {
     public Object getEducationById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    @Override
+    public ArrayList<Education> getEducationsByCitizenId(int id) throws DALException{
+        String        sqlQuery="SELECT * FROM `citizen_insurance`.`educations` WHERE `citizen_id`='"+id+"';";
+        MySQLRequest request=new MySQLRequest(sqlQuery, TypeStatement.executeQuery, TypeResult.EducationList);
+        try {
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while getting educationss by citizen from DB", ex);
+        } 
+        return (ArrayList<Education>) request.getResult();
+    }
 
     @Override
-    public int putEducationInDB(Education education) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void putEducationInDB(Education education,int idCitizen) throws DALException{
+       // education.getDegree().getValue()
+       double finalGrade=0;
+       if (education.isGraduated()){
+           if (education instanceof GradedEducation){
+               finalGrade=((GradedEducation) education).getFinalGrade();
+           }
+       }
+       String sqlQuery="INSERT INTO `citizen_insurance`.`educations` VALUES \n"+
+               String.format("(id,'%d','%s','%s','%s',%d,%.3f,'%d');", education.getDegree().getValue(),
+                       education.getInstitutionName(),education.getEnrollmentDate().toString(),
+                       education.getGraduationDate().toString(),education.isGraduated()?1:0,
+                       finalGrade,idCitizen);
+                       
+       
+        MySQLRequest request = new MySQLRequest(sqlQuery, TypeStatement.execute, TypeResult.Void);
+       
+        try {
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while putting addresses in DB", ex);
+        }
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface AddressStorage {
 
     public int putAddressInDB(Address address);
 
-    public Address getAddressFromDB(int id);
+    public Address getAddressFromDB(int id)  throws DALException;
 
     public void updateAddress(Address address, int id);
 

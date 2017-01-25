@@ -7,6 +7,7 @@ package MySQLClasses;
 
 import Exceptions.DALException;
 import Interfaces.SocialInsuranceStorage;
+import com.mysql.jdbc.Util;
 import insurance.SocialInsuranceRecord;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,8 +24,41 @@ public class MySQLSocialInsuranceStorage implements SocialInsuranceStorage {
     }
 
     @Override
-    public int putInsuranceInDB(SocialInsuranceRecord isuranceRecord) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<SocialInsuranceRecord> getInsurancesByCitizenId(int id) throws DALException{
+               String sqlQuery="SELECT * FROM `citizen_insurance`.`social_insurances_has_citizen` AS t1"
+                + " JOIN `citizen_insurance`.`social_insurances` AS t2 ON t1.`social_insurances_id`="
+                + "t2.`id` WHERE t1.`citizen_id`='"+id+"';";
+        MySQLRequest request=new MySQLRequest(sqlQuery, TypeStatement.executeQuery, 
+                TypeResult.InsuranceList);
+        try {
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while getting educationss by citizen from DB", ex);
+        }        
+        return (ArrayList<SocialInsuranceRecord>) request.getResult();
+        
+    }
+    
+    @Override
+    public void putInsuranceInDB(SocialInsuranceRecord isuranceRecord,int idCitizen) throws DALException{
+        String sqlQuery=isuranceRecord.getYear()+"@@@"+isuranceRecord.getMonth()+"@@@"+isuranceRecord.getAmount();
+        MySQLRequest request= new MySQLRequest(sqlQuery, TypeStatement.callable, TypeResult.Insurance);
+        try {
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while putting insurance record in DB", ex);
+        }
+        
+        sqlQuery="INSERT INTO `citizen_insurance`.`social_insurances_has_citizen` "
+                + "VALUES ('"+((int) request.getResult())+"','"+idCitizen+"');";
+        request.setSQLtext(sqlQuery);
+        request.typeStatement=TypeStatement.execute;
+        request.typeRsult=TypeResult.Void;
+        try {
+            request.execute();
+        } catch (SQLException ex) {
+            throw new DALException("Problem while putting insuranceCitizen record in DB", ex);
+        }
     }
 
     @Override
@@ -49,6 +83,7 @@ public class MySQLSocialInsuranceStorage implements SocialInsuranceStorage {
             sts.add( String.format("('%d','%d','%d','%.2f')",
                     i+1, current.getYear(), current.getMonth(), current.getAmount()));
         }
+        insuranceRecords=null;
         sts.add(";");
         MySQLRequest request = new MySQLRequest(String.join("", sts), TypeStatement.execute, TypeResult.Void);
         try {
@@ -68,6 +103,7 @@ public class MySQLSocialInsuranceStorage implements SocialInsuranceStorage {
             }
 
         }
+        personInsurance=null;
         sts.add(";");
         request.setSQLtext(String.join("", sts)); 
         try {

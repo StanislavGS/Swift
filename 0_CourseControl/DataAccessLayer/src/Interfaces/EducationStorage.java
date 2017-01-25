@@ -7,6 +7,7 @@ package Interfaces;
 
 import Exceptions.DALException;
 import education.Education;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +16,8 @@ import java.util.List;
  */
 public interface EducationStorage {
     public Object getEducationById(int id);
-    public int putEducationInDB(Education education);
+    public ArrayList<Education> getEducationsByCitizenId(int id) throws DALException;
+    public void putEducationInDB(Education education,int idCitizen) throws DALException;
     public void updateEducation(Object education,int id);  
     public void clearAllEducations();
     public void putEducationsInDB(List<Education> educations,List<Integer> educationCitizeIdx) throws DALException;
