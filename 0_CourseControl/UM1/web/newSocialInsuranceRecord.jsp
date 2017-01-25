@@ -12,7 +12,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <form name="setSocialInsuranceRecord" action="newjsp.jsp"><table border="1">
+        <form name="setSocialInsuranceRecord" action="userInfo.jsp"><table border="1">
                     <thead>
                         <tr>
                             <th>name</th>
@@ -22,15 +22,20 @@
                     <tbody>
                         <tr>
                             <td>Year</td>
-                            <td><input type="text" name="year" value="year" /></td>
+                            <td><input type="text" name="year" value="" style=" width: 50px;" /></td>
                         </tr>
                         <tr>
                             <td>Month</td>
-                            <td><input type="text" name="month" value="month" /></td>
+                            <td><select name="month">
+                            <% for(int i=1;i<=12;i++){
+                                out.println("<option>"+i+"</option>");
+                            }%>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td>Amount</td>
-                            <td><input type="text" name="Amount" value="Amount" /></td>
+                            <td><input type="text" name="Amount" value="" style=" width: 50px;" /></td>
                         </tr>
                     </tbody>
                 </table>
