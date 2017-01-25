@@ -220,7 +220,9 @@ public class DataStore {
             }
 
         }
-
+        long begMilis=System.currentTimeMillis();
+        System.out.println("Start:0");
+        
         ArrayList<Education> educations = new ArrayList<>();
         ArrayList<Integer> educationPersonIdx=new ArrayList<>();
         ArrayList<SocialInsuranceRecord> insurances = new ArrayList<>();
@@ -293,21 +295,43 @@ public class DataStore {
 //                personAddress[j]=k;
 //            }            
 //        }
-              
+        adresses=null;      
         
         
+        System.out.println("End calculations:"+(System.currentTimeMillis()-begMilis));
         //Create SQL querry for addresses
         MySqlAddressStorage addressesSQL=new MySqlAddressStorage();
         addressesSQL.putAddressesInDB(addressesToDB);
+        addressesSQL=null;
+        addressesToDB=null;
+        System.out.println("End writing addresses inDB:"+(System.currentTimeMillis()-begMilis));
         
         MySQLCitizenStorage citizensSQL=new MySQLCitizenStorage();
         citizensSQL.putCitizensInDB(citizens,personAddress);
+        citizensSQL=null;        
+        personAddress=null;
+        citizens=null;
+        System.out.println("End writing citizens inDB:"+(System.currentTimeMillis()-begMilis));
         
         MySQLEducationStorage educationsSQL=new MySQLEducationStorage();
         educationsSQL.putEducationsInDB(educations, educationPersonIdx);
+        educationsSQL=null;
+        educations=null;
+        educationPersonIdx=null;
+        System.out.println("End writing educations inDB:"+(System.currentTimeMillis()-begMilis));
         
         MySQLSocialInsuranceStorage socIns=new MySQLSocialInsuranceStorage();
+//        int parts= insurances.size()/100000;
+//        for (int j = 0; j < parts; j++) {
+//            socIns.putInsurancesInDB(insurances.subList(parts*100000,( parts+1)*100000),
+//                    personsInsurances.subList(parts*100000,( parts+1)*100000));
+//        }
+//        
+//        insurances.subList(idxIns, i)
+
+
+
         socIns.putInsurancesInDB(insurances,personsInsurances);
-        
+        System.out.println("End writing socInsurances inDB:"+(System.currentTimeMillis()-begMilis));
     }
 }

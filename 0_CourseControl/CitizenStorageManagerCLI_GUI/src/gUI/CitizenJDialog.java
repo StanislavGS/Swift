@@ -99,7 +99,7 @@ public class CitizenJDialog extends javax.swing.JDialog {
             }
         });
 
-        jButton4.setText("Write memory to DB");
+        jButton4.setText("Move memory to DB");
         jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton4MouseClicked(evt);
@@ -259,7 +259,7 @@ public class CitizenJDialog extends javax.swing.JDialog {
 
         int returnVal = fc.showOpenDialog(this);
         //System.out.println("Selected file: " + fc.getSelectedFile().getAbsolutePath());
-        if (fc.getSelectedFile().getAbsolutePath()!=null){
+        if (fc!=null && fc.getSelectedFile().getAbsolutePath()!=null){
             jTextField1.setText(fc.getSelectedFile().getAbsolutePath());
         }        
     }
@@ -366,6 +366,7 @@ public class CitizenJDialog extends javax.swing.JDialog {
                     , "Error", JOptionPane.ERROR_MESSAGE);
         }
         jLabel2.setText("There is "+getCitizensCount()+" citizens records in DB");
+        jLabel1.setText("There is 0 records in memory.");
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
